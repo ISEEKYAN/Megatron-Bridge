@@ -256,6 +256,7 @@ def test_process_mtp_loss_with_native_packing_metadata():
     config = SimpleNamespace(
         mtp_num_layers=1,
         mtp_detach_heads=False,
+        mtp_detach_output_weight=False,
         mtp_loss_scaling_factor=1.0,
         calculate_per_token_loss=True,
         use_mup=False,
