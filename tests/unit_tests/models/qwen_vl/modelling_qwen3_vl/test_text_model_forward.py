@@ -108,11 +108,16 @@ def test_forward_forwards_output_processor_hook():
         attention_mask=torch.ones((1, 4), dtype=torch.long),
         output_processor=output_processor,
         output_processor_context=output_processor_context,
+        compute_mtp_loss=False,
+        mtp_loss_normalization_factor=0.5,
     )
 
     assert output == "ok"
     assert dummy.postprocess_args["output_processor"] is output_processor
     assert dummy.postprocess_args["output_processor_context"] is output_processor_context
+
+    assert dummy.postprocess_args["compute_mtp_loss"] is False
+    assert dummy.postprocess_args["mtp_loss_normalization_factor"] == 0.5
 
 
 def test_mtp_sequence_parallel_embedding_scatter_uses_tp_group(monkeypatch):
@@ -251,6 +256,7 @@ def test_process_mtp_loss_with_native_packing_metadata():
     config = SimpleNamespace(
         mtp_num_layers=1,
         mtp_detach_heads=False,
+        mtp_detach_output_weight=False,
         mtp_loss_scaling_factor=1.0,
         calculate_per_token_loss=True,
         use_mup=False,

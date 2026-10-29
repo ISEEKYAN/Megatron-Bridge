@@ -173,6 +173,8 @@ class Qwen3VLGPTModel(GPTModel):
         deepstack_visual_embeds: Optional[list[torch.Tensor]] = None,
         output_processor: Callable[..., Tensor] | None = None,
         output_processor_context: Any | None = None,
+        compute_mtp_loss: bool = True,
+        mtp_loss_normalization_factor: float = 1.0,
     ) -> Tensor:
         """Forward function of the GPT Model This function passes the input tensors
         through the embedding layer, and then the decoeder and finally into the post
@@ -278,6 +280,8 @@ class Qwen3VLGPTModel(GPTModel):
             inference_context=inference_context,
             output_processor=output_processor,
             output_processor_context=output_processor_context,
+            compute_mtp_loss=compute_mtp_loss,
+            mtp_loss_normalization_factor=mtp_loss_normalization_factor,
         )
 
         if _shadow_embedding:
